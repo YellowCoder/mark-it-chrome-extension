@@ -7,3 +7,13 @@
   width: 50px;
   z-index: 9999;
 }
+
+.markIt__icon--green {
+  background: url('./assets/icon-read-green-50x50.png') no-repeat;
+  height: 50px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 50px;
+  z-index: 9999;
+}

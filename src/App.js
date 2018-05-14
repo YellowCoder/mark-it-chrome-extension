@@ -12,9 +12,21 @@ class App extends Component {
 
   render() {
     const { isSaved } = this.state
+
     return (
-      <div className="markIt__icon--red">
-      </div>
+      <React.Fragment>
+        {
+          !isSaved &&
+          <div className='markIt__icon--red'>
+          </div>
+        }
+
+        { 
+          isSaved &&
+          <div className='markIt__icon--green'>
+          </div>
+        }
+      </React.Fragment>
     )
   }
 }
