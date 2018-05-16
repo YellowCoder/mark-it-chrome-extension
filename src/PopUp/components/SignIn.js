@@ -1,3 +1,5 @@
+/*global chrome*/
+
 import React from 'react'
 import axios from 'axios'
 
@@ -28,7 +30,7 @@ class SignIn extends React.Component {
   login() {
     this.setState({ sending: true })
 
-    axios.post('http://localhost:3000/users/authenticate', 
+    axios.post('https://mark-it-api.herokuapp.com/users/authenticate', 
       { 
         user: { 
           email: this.state.email, 
@@ -39,6 +41,7 @@ class SignIn extends React.Component {
     .then((response) => {
       const authToken = response.data.auth_token
       this.setState({ sending: false, authToken })
+      chrome.storage.sync.set({ auth_token: authToken })
       localStorage.setItem('auth_token', authToken)
     })
     .catch((response) => {

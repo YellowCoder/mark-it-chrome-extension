@@ -1,3 +1,5 @@
+/*global chrome*/
+
 import React, { Component } from 'react'
 import axios from 'axios'
 import Qs from 'qs'
@@ -21,62 +23,69 @@ class Index extends Component {
   }
 
   check() {
-    axios({
-      method:'get',
-      url:'http://localhost:3000/link_users/check_url/',
-      params: { 
-        link_user: {
-          auth_token: localStorage.getItem('auth_token'),
-          url: window.location.href
+    chrome.storage.sync.get(['auth_token'], (result) => {
+      axios({
+        method:'get',
+        url:'https://mark-it-api.herokuapp.com/link_users/check_url/',
+        params: { 
+          link_user: {
+            auth_token: result.auth_token,
+            url: window.location.href
+          }
+        },
+        paramsSerializer: function(params) {
+          return Qs.stringify(params, {arrayFormat: 'brackets'})
         }
-      },
-      paramsSerializer: function(params) {
-        return Qs.stringify(params, {arrayFormat: 'brackets'})
-      }
-    }).then((response) => {
-      this.setState({ isSaved: response.status === 200 })
-    }).catch((response) => {
-
+      }).then((response) => {
+        this.setState({ isSaved: response.status === 200 })
+      }).catch((response) => {
+  
+      })
     })
   }
 
   save() {
-    axios({
-      method:'post',
-      url:'http://localhost:3000/link_users/',
-      params: { 
-        link_user: {
-          auth_token: localStorage.getItem('auth_token'),
-          url: window.location.href
+    chrome.storage.sync.get(['auth_token'], (result) => {
+      axios({
+        method:'post',
+        url:'https://mark-it-api.herokuapp.com/link_users/',
+        params: { 
+          link_user: {
+            auth_token: result.auth_token,
+            host: window.location.host,
+            url: window.location.href
+          }
+        },
+        paramsSerializer: function(params) {
+          return Qs.stringify(params, {arrayFormat: 'brackets'})
         }
-      },
-      paramsSerializer: function(params) {
-        return Qs.stringify(params, {arrayFormat: 'brackets'})
-      }
-    }).then((response) => {
-      this.setState({ isSaved: response.status === 200 })
-    }).catch((response) => {
-
+      }).then((response) => {
+        this.setState({ isSaved: response.status === 200 })
+      }).catch((response) => {
+  
+      })
     })
   }
 
   delete() {
-    axios({
-      method:'delete',
-      url:'http://localhost:3000/link_users/destroy_by_url',
-      params: { 
-        link_user: {
-          auth_token: localStorage.getItem('auth_token'),
-          url: window.location.href
+    chrome.storage.sync.get(['auth_token'], (result) => {
+      axios({
+        method:'delete',
+        url:'https://mark-it-api.herokuapp.com/link_users/destroy_by_url',
+        params: { 
+          link_user: {
+            auth_token: result.auth_token,
+            url: window.location.href
+          }
+        },
+        paramsSerializer: function(params) {
+          return Qs.stringify(params, {arrayFormat: 'brackets'})
         }
-      },
-      paramsSerializer: function(params) {
-        return Qs.stringify(params, {arrayFormat: 'brackets'})
-      }
-    }).then((response) => {
-      this.setState({ isSaved: false })
-    }).catch((response) => {
-
+      }).then((response) => {
+        this.setState({ isSaved: false })
+      }).catch((response) => {
+  
+      })
     })
   }
 
