@@ -1,5 +1,6 @@
 .markIt__icon--red {
-  background: url('./assets/icon-read-red-50x50.png') no-repeat;
+  background: url('../assets/icon-read-red-50x50.png') no-repeat;
+  cursor: pointer;
   height: 50px;
   position: absolute;
   right: 10px;
@@ -9,7 +10,8 @@
 }
 
 .markIt__icon--green {
-  background: url('./assets/icon-read-green-50x50.png') no-repeat;
+  background: url('../assets/icon-read-green-50x50.png') no-repeat;
+  cursor: pointer;
   height: 50px;
   position: absolute;
   right: 10px;
