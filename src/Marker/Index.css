@@ -6,7 +6,7 @@
   right: 10px;
   top: 10px;
   width: 50px;
-  z-index: 9999;
+  z-index: 99999;
 }
 
 .markIt__icon--green {
@@ -17,5 +17,5 @@
   right: 10px;
   top: 10px;
   width: 50px;
-  z-index: 9999;
+  z-index: 99999;
 }

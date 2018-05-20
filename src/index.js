@@ -7,8 +7,8 @@ import PopUpApp from './PopUp/Index'
 
 import registerServiceWorker from './registerServiceWorker'
 
-const markerElement = document.getElementById('markItRoot')
-const popUpElement = document.getElementById('root')
+const markerElement = document.getElementById('markItMarkerRoot')
+const popUpElement = document.getElementById('markItPopUpRoot')
 
 if (markerElement) {
   ReactDOM.render(<MarkerApp />, markerElement)
