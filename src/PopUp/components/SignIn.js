@@ -89,10 +89,12 @@ class SignIn extends React.Component {
 
             <div className="signIn__formGroup">
               <label htmlFor="password">Password:</label>
-              <input value={ password } id="password"  onChange={ this.changeValue.bind(this, 'password') }/>
+              <input value={ password } id="password" type="password" onChange={ this.changeValue.bind(this, 'password') }/>
             </div>
 
-            <button onClick={ this.login.bind(this) }>Login</button>
+            <div className="signIn__formGroup">
+              <button onClick={ this.login.bind(this) }>Login</button>
+            </div>
           </React.Fragment>
         }
       </div>
