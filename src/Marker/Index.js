@@ -27,9 +27,9 @@ class Index extends Component {
       axios({
         method:'get',
         url:'https://mark-it-api.herokuapp.com/link_users/check_url/',
-        params: { 
+        params: {
+          auth_token: result.auth_token,
           link_user: {
-            auth_token: result.auth_token,
             url: window.location.href
           }
         },
@@ -50,8 +50,8 @@ class Index extends Component {
         method:'post',
         url:'https://mark-it-api.herokuapp.com/link_users/',
         params: { 
+          auth_token: result.auth_token,
           link_user: {
-            auth_token: result.auth_token,
             host: window.location.host,
             url: window.location.href
           }
@@ -71,10 +71,10 @@ class Index extends Component {
     chrome.storage.sync.get(['auth_token'], (result) => {
       axios({
         method:'delete',
-        url:'https://mark-it-api.herokuapp.com/link_users/destroy_by_url',
-        params: { 
+        url:'https://mark-it-api.herokuapp.com/link_users/1',
+        params: {
+          auth_token: result.auth_token,
           link_user: {
-            auth_token: result.auth_token,
             url: window.location.href
           }
         },
