@@ -1,0 +1,8 @@
+.signIn__formGroup {
+  text-align: right;
+  margin-bottom: 5px;
+}
+
+.signIn__formGroup label {
+  margin-right: 5px;
+}
