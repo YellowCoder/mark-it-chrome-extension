@@ -1,8 +1,8 @@
 /*global chrome*/
 
 import React, { Component } from 'react'
-import axios from 'axios'
-import Qs from 'qs'
+
+import { checkURL, saveURL, deleteURL } from '../utils/requester'
 
 import './Index.css'
 
@@ -11,6 +11,7 @@ class Index extends Component {
     super()
 
     this.state = {
+      isLoading: true,
       isSaved: false
     }
 
@@ -23,84 +24,55 @@ class Index extends Component {
   }
 
   check() {
-    chrome.storage.sync.get(['auth_token'], (result) => {
-      axios({
-        method:'get',
-        url:'https://mark-it-api.herokuapp.com/link_users/check_url/',
-        params: {
-          auth_token: result.auth_token,
-          link_user: {
-            url: window.location.href
-          }
-        },
-        paramsSerializer: function(params) {
-          return Qs.stringify(params, {arrayFormat: 'brackets'})
-        }
-      }).then((response) => {
-        this.setState({ isSaved: response.status === 200 })
-      }).catch((response) => {
-  
-      })
+    chrome.storage.sync.get(['auth_token'], (data) => {
+      checkURL(data)
+        .then((response) => {
+          this.setState({
+            isLoading: false,
+            isSaved: response.status === 200
+          })
+        }).catch((response) => {
+          this.setState({ isLoading: false })
+        })
     })
   }
 
   save() {
-    chrome.storage.sync.get(['auth_token'], (result) => {
-      axios({
-        method:'post',
-        url:'https://mark-it-api.herokuapp.com/link_users/',
-        params: { 
-          auth_token: result.auth_token,
-          link_user: {
-            host: window.location.host,
-            url: window.location.href
-          }
-        },
-        paramsSerializer: function(params) {
-          return Qs.stringify(params, {arrayFormat: 'brackets'})
-        }
-      }).then((response) => {
-        this.setState({ isSaved: response.status === 200 })
-      }).catch((response) => {
-  
-      })
+    chrome.storage.sync.get(['auth_token'], (data) => {
+      saveURL(data)
+        .then((response) => {
+          this.setState({ isSaved: response.status === 200 })
+        }).catch((response) => {
+          this.setState({ isLoading: false })
+        })
     })
   }
 
   delete() {
-    chrome.storage.sync.get(['auth_token'], (result) => {
-      axios({
-        method:'delete',
-        url:'https://mark-it-api.herokuapp.com/link_users/1',
-        params: {
-          auth_token: result.auth_token,
-          link_user: {
-            url: window.location.href
-          }
-        },
-        paramsSerializer: function(params) {
-          return Qs.stringify(params, {arrayFormat: 'brackets'})
-        }
-      }).then((response) => {
-        this.setState({ isSaved: false })
-      }).catch((response) => {
-  
-      })
+    chrome.storage.sync.get(['auth_token'], (data) => {
+      deleteURL(data)
+        .then((response) => {
+          this.setState({ isSaved: false })
+        }).catch((response) => {
+          this.setState({ isLoading: false })
+        })
     })
   }
 
   render() {
-    const { isSaved } = this.state
+    const { isSaved, isLoading } = this.state
 
     return (
       <React.Fragment>
         {
+          !isLoading &&
           !isSaved &&
           <div className='markIt__icon--red' onClick={ this.save }>
           </div>
         }
 
         { 
+          !isLoading &&
           isSaved &&
           <div className='markIt__icon--green' onClick={ this.delete }>
           </div>
