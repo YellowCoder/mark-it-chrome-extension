@@ -22,7 +22,6 @@ class Index extends Component {
 
   componentWillMount() {
     chrome.storage.sync.get(['auth_token'], (data) => {
-      console.log(data)
       this.setState({ isLogged: data.auth_token !== null })
     })
     this.check()

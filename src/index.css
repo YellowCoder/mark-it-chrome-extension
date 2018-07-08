@@ -1,5 +1,28 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Open Sans', Helvetica, sans-serif;
+}
+
+button {
+  background-color: #429cb6;
+  border-color: #429cb6;
+  font-weight: 600;
+  color: #FFFFFF;
+  padding: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+input {
+  box-shadow: none;
+  padding: 3px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #e7e7e7;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }

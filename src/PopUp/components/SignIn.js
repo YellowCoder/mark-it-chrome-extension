@@ -33,7 +33,7 @@ class SignIn extends React.Component {
     .then((response) => {
       localStorage.removeItem('auth_token')
       chrome.storage.sync.remove(['auth_token'], (data) => {
-        this.setState({ authToken: null })
+        this.setState({ authToken: null, error: '' })
       })
     })
     .catch((response) => {
@@ -54,12 +54,12 @@ class SignIn extends React.Component {
     )
     .then((response) => {
       const authToken = response.data.auth_token
-      this.setState({ sending: false, authToken })
+      this.setState({ sending: false, authToken, error: '' })
       chrome.storage.sync.set({ auth_token: authToken })
       localStorage.setItem('auth_token', authToken)
     })
     .catch((response) => {
-      this.setState({ error: 'Error!', sending: false })
+      this.setState({ error: 'Invalid email or password.', sending: false })
     })
   }
   
@@ -76,7 +76,9 @@ class SignIn extends React.Component {
       <div className="signIn__form">
         {
           error &&
-          <p>{ error }</p>
+          <div className="signIn__errors">
+            <span>{ error }</span>
+          </div>
         }
 
         { 
@@ -96,6 +98,7 @@ class SignIn extends React.Component {
           !authToken &&
           !sending &&
           <React.Fragment>
+            <h2>Mark it Login</h2>
             <div className="signIn__formGroup">
               <label htmlFor="email">Email:</label>
               <input value={ email } id="email" onChange={ this.changeValue.bind(this, 'email') }/>
