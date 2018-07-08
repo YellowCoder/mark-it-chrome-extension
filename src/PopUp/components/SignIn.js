@@ -25,10 +25,16 @@ class SignIn extends React.Component {
   logout() {
     const { authToken } = this.state
 
-    axios.delete(`https://mark-it-api.herokuapp.com/sessions/${ authToken }`)
+    const params = {
+      auth_token: authToken,
+    }
+
+    axios.delete(`https://mark-it-api.herokuapp.com/sessions/${ authToken }`, { params })
     .then((response) => {
       localStorage.removeItem('auth_token')
-      this.setState({ authToken: null })
+      chrome.storage.sync.remove(['auth_token'], (data) => {
+        this.setState({ authToken: null })
+      })
     })
     .catch((response) => {
       this.setState({ error: 'Error!', sending: false })

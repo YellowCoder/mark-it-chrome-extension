@@ -12,19 +12,25 @@ class Index extends Component {
 
     this.state = {
       isLoading: true,
-      isSaved: false
+      isSaved: false,
+      isLogged: null
     }
 
     this.save = this.save.bind(this)
     this.delete = this.delete.bind(this)
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    chrome.storage.sync.get(['auth_token'], (data) => {
+      console.log(data)
+      this.setState({ isLogged: data.auth_token !== null })
+    })
     this.check()
   }
 
   check() {
     chrome.storage.sync.get(['auth_token'], (data) => {
+      if (!data.auth_token) return
       checkURL(data)
         .then((response) => {
           this.setState({
@@ -60,7 +66,9 @@ class Index extends Component {
   }
 
   render() {
-    const { isSaved, isLoading } = this.state
+    const { isSaved, isLoading, isLogged } = this.state
+
+    if (!isLogged) return null
 
     return (
       <React.Fragment>
