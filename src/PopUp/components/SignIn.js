@@ -3,6 +3,8 @@
 import React from 'react'
 import axios from 'axios'
 
+import UserProfile from './UserProfile'
+
 import './SignIn.css'
 
 class SignIn extends React.Component {
@@ -19,26 +21,13 @@ class SignIn extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({ authToken: localStorage.getItem('auth_token') })
-  }
-
-  logout() {
-    const { authToken } = this.state
-
-    const params = {
-      auth_token: authToken,
-    }
-
-    axios.delete(`https://mark-it-api.herokuapp.com/sessions/${ authToken }`, { params })
-    .then((response) => {
-      localStorage.removeItem('auth_token')
-      chrome.storage.sync.remove(['auth_token'], (data) => {
-        this.setState({ authToken: null, error: '' })
+    if (chrome.storage) {
+      chrome.storage.sync.get(['auth_token'], (data) => {
+        this.setState({ authToken: data.auth_token })
       })
-    })
-    .catch((response) => {
-      this.setState({ error: 'Error!', sending: false })
-    })
+    } else {
+      this.setState({ authToken: localStorage.getItem('auth_token') })
+    }
   }
 
   login() {
@@ -88,10 +77,7 @@ class SignIn extends React.Component {
 
         {
           authToken &&
-          <React.Fragment>
-            <p>Logado!</p>
-            <button onClick={ this.logout.bind(this) }>Logout</button>
-          </React.Fragment>
+          <UserProfile />
         }
 
         { 
